@@ -12,7 +12,7 @@
         <!--Navigation Controller-->
         <scene sceneID="s5m-4U-BOa">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UJn-0x-t8u" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="UJn-0x-t8u" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="K85-sr-yu2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -30,7 +30,7 @@
         <!--Nearby Photos Screen-->
         <scene sceneID="jRy-S4-BBI">
             <objects>
-                <collectionViewController id="fpK-9F-U3I" customClass="NearbyPhotosScreen" customModule="TestLFC" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController automaticallyAdjustsScrollViewInsets="NO" id="fpK-9F-U3I" customClass="NearbyPhotosScreen" customModule="TestLFC" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" id="FVr-Af-b5X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
