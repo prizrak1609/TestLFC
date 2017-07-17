@@ -9,9 +9,38 @@
 import UIKit
 
 final class InfoPhotoScreen : UIViewController {
+    @IBOutlet fileprivate weak var scrollView: UIScrollView!
 
-    var model: PhotoModel? {
-        didSet {
-        }
+    fileprivate var imageView: UIImageView?
+
+    var model: PhotoModel?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initImageView()
+        initScrollView()
+        guard let model = model else { return }
+        imageView?.af_setImage(withURL: model.url)
+    }
+}
+
+extension InfoPhotoScreen {
+
+    func initImageView() {
+        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height))
+        imageView?.contentMode = .scaleAspectFit
+    }
+}
+
+extension InfoPhotoScreen : UIScrollViewDelegate {
+
+    func initScrollView() {
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 5
+    }
+
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
     }
 }
