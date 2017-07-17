@@ -22,14 +22,11 @@ final class SearchPhotosScreen: BaseCollectionViewController {
             guard let welf = self else { return }
             switch result {
                 case .error(let text): showText(text)
-                case .success(let model): welf.setFirstModels(model)
+                case .success(let model):
+                    welf.setFirstModels(model)
+                    welf.collectionView?.reloadData()
             }
         }
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func initialiseBaseCollectionView() {
@@ -38,6 +35,10 @@ final class SearchPhotosScreen: BaseCollectionViewController {
                                  forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
                                  withReuseIdentifier: cellSearchHeader)
         delegate = self
+    }
+
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
 }
 
@@ -62,10 +63,13 @@ extension SearchPhotosScreen : BaseCollectionViewControllerProtocol {
 
     func loadMoreModels(_ completion: @escaping ([PhotoModel]) -> Void, in collectionView: UICollectionViewController) {
         model.page += 1
-        flickrApi.searchPhotos(text: model) { result in
+        flickrApi.searchPhotos(text: model) { [weak self] result in
+            guard let welf = self else { return }
             switch result {
                 case .error(let text): showText(text)
-                case .success(let model): completion(model)
+                case .success(let model):
+                    completion(model)
+                    welf.collectionView?.reloadData()
             }
         }
     }
@@ -84,19 +88,27 @@ extension SearchPhotosScreen : UISearchBarDelegate {
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(true, animated: true)
-        searchBar.text = ""
         return true
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         model.text = searchText
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         flickrApi.searchPhotos(text: model) { [weak self] result in
             guard let welf = self else { return }
             switch result {
                 case .error(let text): showText(text)
-                case .success(let model): welf.setFirstModels(model)
+                case .success(let model):
+                    welf.setFirstModels(model)
+                    welf.collectionView?.reloadData()
             }
         }
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

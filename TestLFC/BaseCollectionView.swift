@@ -37,7 +37,6 @@ class BaseCollectionViewController : UICollectionViewController, UICollectionVie
 
     func setFirstModels(_ models: [PhotoModel]) {
         self.models = models
-        collectionView?.reloadData()
     }
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -57,7 +56,6 @@ class BaseCollectionViewController : UICollectionViewController, UICollectionVie
             delegate?.loadMoreModels({ [weak self] models in
                 guard let welf = self else { return }
                 welf.models.append(contentsOf: models)
-                welf.collectionView?.reloadData()
             }, in: self)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.loading, for: indexPath)
             return cell

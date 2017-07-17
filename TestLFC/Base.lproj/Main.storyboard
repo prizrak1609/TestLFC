@@ -13,6 +13,7 @@
         <scene sceneID="KIO-lf-4Td">
             <objects>
                 <tabBarController id="lRy-RI-05d" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="8f9-wC-UTX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

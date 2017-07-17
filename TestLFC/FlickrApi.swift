@@ -34,7 +34,9 @@ final class FlickrApi {
         FlickrKit.shared().call(photosSearch, maxCacheAge: .oneHour) { response, error in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if let error = error {
-                completion(.error(error.localizedDescription))
+                DispatchQueue.main.async {
+                    completion(.error(error.localizedDescription))
+                }
                 return
             }
             if let response = response,
@@ -46,7 +48,9 @@ final class FlickrApi {
                     let model = PhotoModel(small: smallPhotoURL, large: largePhotoURL)
                     return model
                 }
-                completion(.success(result))
+                DispatchQueue.main.async {
+                    completion(.success(result))
+                }
             }
         }
     }

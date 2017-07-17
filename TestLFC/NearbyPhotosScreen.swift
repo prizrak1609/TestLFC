@@ -21,14 +21,13 @@ final class NearbyPhotosScreen: BaseCollectionViewController {
         initLocationManager()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-
     override func initialiseBaseCollectionView() {
         super.initialiseBaseCollectionView()
         delegate = self
+    }
+
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
 }
 
@@ -51,16 +50,18 @@ extension NearbyPhotosScreen : CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        model.lat = location.coordinate.latitude
-        model.lon = location.coordinate.longitude
+        guard let coords = locations.last?.coordinate, coords.latitude != 0, coords.longitude != 0 else { return }
+        model.lat = coords.latitude
+        model.lon = coords.longitude
         locationManager.stopUpdatingLocation()
         locationManager.delegate = nil
         flickrApi.searchPhotos(geo: model) { [weak self] result in
             guard let welf = self else { return }
             switch result {
                 case .error(let text): showText(text)
-                case .success(let model): welf.setFirstModels(model)
+                case .success(let model):
+                    welf.setFirstModels(model)
+                    welf.collectionView?.reloadData()
             }
         }
     }
@@ -75,10 +76,13 @@ extension NearbyPhotosScreen : BaseCollectionViewControllerProtocol {
 
     func loadMoreModels(_ completion: @escaping ([PhotoModel]) -> Void, in collectionView: UICollectionViewController) {
         model.page += 1
-        flickrApi.searchPhotos(geo: model) { result in
+        flickrApi.searchPhotos(geo: model) { [weak self] result in
+            guard let welf = self else { return }
             switch result {
                 case .error(let text): showText(text)
-                case .success(let model): completion(model)
+                case .success(let model):
+                    completion(model)
+                    welf.collectionView?.reloadData()
             }
         }
     }

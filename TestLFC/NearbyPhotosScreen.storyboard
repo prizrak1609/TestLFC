@@ -9,11 +9,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Nearby photos-->
         <scene sceneID="s5m-4U-BOa">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="UJn-0x-t8u" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <tabBarItem key="tabBarItem" title="Nearby photos" image="nearby" id="ruR-Ug-oWF"/>
                     <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="K85-sr-yu2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -31,8 +34,8 @@
         <scene sceneID="jRy-S4-BBI">
             <objects>
                 <collectionViewController automaticallyAdjustsScrollViewInsets="NO" id="fpK-9F-U3I" customClass="NearbyPhotosScreen" customModule="TestLFC" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" id="FVr-Af-b5X">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" id="FVr-Af-b5X">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sA9-ga-ieY">
@@ -47,6 +50,7 @@
                             <outlet property="delegate" destination="fpK-9F-U3I" id="k6v-ig-0CB"/>
                         </connections>
                     </collectionView>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="6iB-uH-63g"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rLt-TA-CAl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -54,4 +58,7 @@
             <point key="canvasLocation" x="1023.75" y="179.57746478873239"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="nearby" width="36" height="36"/>
+    </resources>
 </document>
