@@ -30,7 +30,9 @@ final class FlickrApi {
     fileprivate func getPhotos(method photosSearch: FKFlickrPhotosSearch, _ completion: @escaping (Result<[PhotoModel]>) -> Void) {
         photosSearch.privacy_filter = "1" // public photos
         photosSearch.accuracy = "3" // Country
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         FlickrKit.shared().call(photosSearch, maxCacheAge: .oneHour) { response, error in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if let error = error {
                 completion(.error(error.localizedDescription))
                 return

@@ -15,7 +15,7 @@ fileprivate struct Settings {
 }
 
 protocol BaseCollectionViewControllerProtocol : class {
-    func loadMoreModels(_ completion: ([PhotoModel]) -> Void, in collectionView: UICollectionViewController)
+    func loadMoreModels(_ completion: @escaping ([PhotoModel]) -> Void, in collectionView: UICollectionViewController)
     func didSelect(model: PhotoModel, at indexPath: IndexPath, in collectionView: UICollectionViewController)
     func configure(cell: UICollectionViewCell, withIdentifier identifier: String, and model: PhotoModel, for indexPath: IndexPath)
 }

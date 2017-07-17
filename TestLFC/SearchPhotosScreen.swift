@@ -12,9 +12,19 @@ fileprivate let cellSearchHeader = "HeaderSearchView"
 
 final class SearchPhotosScreen: BaseCollectionViewController {
 
+    fileprivate var model = TextSearchPhotoModel()
+    fileprivate var flickrApi = FlickrApi()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         initialiseBaseCollectionView()
+        flickrApi.searchPhotos(text: model) { [weak self] result in
+            guard let welf = self else { return }
+            switch result {
+                case .error(let text): log(text)
+                case .success(let model): welf.setFirstModels(model)
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -50,8 +60,14 @@ extension SearchPhotosScreen : BaseCollectionViewControllerProtocol {
         cell.model = model
     }
 
-    func loadMoreModels(_ completion: ([PhotoModel]) -> Void, in collectionView: UICollectionViewController) {
-        // TODO: load photos and send it to completion(_:)
+    func loadMoreModels(_ completion: @escaping ([PhotoModel]) -> Void, in collectionView: UICollectionViewController) {
+        model.page += 1
+        flickrApi.searchPhotos(text: model) { result in
+            switch result {
+                case .error(let text): log(text)
+                case .success(let model): completion(model)
+            }
+        }
     }
 
     func didSelect(model: PhotoModel, at indexPath: IndexPath, in collectionView: UICollectionViewController) {
@@ -73,7 +89,14 @@ extension SearchPhotosScreen : UISearchBarDelegate {
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // TODO: get photos and send it to setFirstModels(_:)
+        model.text = searchText
+        flickrApi.searchPhotos(text: model) { [weak self] result in
+            guard let welf = self else { return }
+            switch result {
+                case .error(let text): log(text)
+                case .success(let model): welf.setFirstModels(model)
+            }
+        }
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

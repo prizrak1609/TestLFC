@@ -9,6 +9,6 @@
 import Foundation
 
 struct TextSearchPhotoModel {
-    let text: String
-    let page: Int
+    var text = ""
+    var page = 1
 }
