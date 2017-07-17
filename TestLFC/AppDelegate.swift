@@ -8,6 +8,7 @@
 
 import UIKit
 import IQKeyboardManager
+import FlickrKit
 #if DEBUG
     import GDPerformanceView_Swift
 #endif
@@ -18,6 +19,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        // MARK: hide status bar
+        UIApplication.shared.isStatusBarHidden = true
         // MARK: init keyboard manager
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().isEnableAutoToolbar = false
@@ -33,6 +36,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 GDPerformanceMonitor.sharedInstance.startMonitoring()
             }
         #endif
+        // MARK: initialise FlickrKit
+        FlickrKit.shared().initialize(withAPIKey: "8e4a79fba9232da6e719cd5850d18489", sharedSecret: "c296a3131c54f567")
         return true
     }
 

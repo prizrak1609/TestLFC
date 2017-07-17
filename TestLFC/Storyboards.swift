@@ -12,9 +12,14 @@ enum Storyboards {
 
     enum Name {
         static let main = "Main"
+        static let infoPhoto = "InfoPhotoScreen"
     }
 
     static var main: UIViewController? {
         return UIStoryboard(name: Name.main, bundle: nil).instantiateInitialViewController()
+    }
+
+    static var infoPhoto: UIViewController? {
+        return UIStoryboard(name: Name.infoPhoto, bundle: nil).instantiateInitialViewController()
     }
 }

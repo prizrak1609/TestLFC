@@ -18,6 +18,9 @@ target 'TestLFC' do
 # https://github.com/dani-gavrilov/GDPerformanceView-Swift
   pod 'GDPerformanceView-Swift', '~> 1.2.0'
 
+# https://github.com/Alamofire/AlamofireImage
+  pod 'AlamofireImage', '~> 3.1'
+
   pod 'FlickrKit', '~> 1.0'
 
   target 'TestLFCTests' do

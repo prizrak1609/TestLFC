@@ -24,13 +24,38 @@ class TestLFCTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssertTrue(true)
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+
+    func testFlickrApiSearchPhotosGeo() {
+        var model = GeoSearchPhoto()
+        model.lat = 37.322998
+        model.lon = -122.032182
+        let flickrApi = FlickrApi()
+        let wait = expectation(description: "search photos")
+        flickrApi.searchPhotos(geo: model) { result in
+            switch result {
+                case .error(let text): XCTAssertTrue(false, text)
+                case .success(let model):
+                    XCTAssertTrue(model.count > 0)
+                    wait.fulfill()
+            }
         }
+        waitForExpectations(timeout: 20, handler: nil)
     }
-    
+
+    func testFlickrApiSearchPhotosText() {
+        let model = TextSearchPhotoModel()
+        let flickrApi = FlickrApi()
+        let wait = expectation(description: "search photos")
+        flickrApi.searchPhotos(text: model) { result in
+            switch result {
+                case .error(let text): XCTAssertTrue(false, text)
+                case .success(let model):
+                    XCTAssertTrue(model.count > 0)
+                    wait.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 20, handler: nil)
+    }
 }
