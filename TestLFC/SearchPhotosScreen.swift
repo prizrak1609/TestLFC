@@ -13,7 +13,7 @@ fileprivate let cellSearchHeader = "HeaderSearchView"
 final class SearchPhotosScreen: BaseCollectionViewController {
 
     fileprivate var model = TextSearchPhotoModel()
-    fileprivate var flickrApi = FlickrApi()
+    fileprivate let flickrApi = FlickrApi()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ final class SearchPhotosScreen: BaseCollectionViewController {
         flickrApi.searchPhotos(text: model) { [weak self] result in
             guard let welf = self else { return }
             switch result {
-                case .error(let text): log(text)
+                case .error(let text): showText(text)
                 case .success(let model): welf.setFirstModels(model)
             }
         }
@@ -64,7 +64,7 @@ extension SearchPhotosScreen : BaseCollectionViewControllerProtocol {
         model.page += 1
         flickrApi.searchPhotos(text: model) { result in
             switch result {
-                case .error(let text): log(text)
+                case .error(let text): showText(text)
                 case .success(let model): completion(model)
             }
         }
@@ -93,7 +93,7 @@ extension SearchPhotosScreen : UISearchBarDelegate {
         flickrApi.searchPhotos(text: model) { [weak self] result in
             guard let welf = self else { return }
             switch result {
-                case .error(let text): log(text)
+                case .error(let text): showText(text)
                 case .success(let model): welf.setFirstModels(model)
             }
         }

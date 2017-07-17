@@ -10,8 +10,8 @@ import Foundation
 import CoreGraphics
 
 struct GeoSearchPhoto {
-    let radius: Int
-    let lat: CGFloat
-    let lon: CGFloat
-    let page: Int
+    var radius = 1
+    var lat = 0.0
+    var lon = 0.0
+    var page = 1
 }

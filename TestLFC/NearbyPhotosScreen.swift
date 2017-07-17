@@ -7,13 +7,18 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class NearbyPhotosScreen: BaseCollectionViewController {
+
+    fileprivate let locationManager = CLLocationManager()
+    fileprivate var model = GeoSearchPhoto()
+    fileprivate let flickrApi = FlickrApi()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         initialiseBaseCollectionView()
-        // TODO: load images and send it to setFirstModels(_:)
+        initLocationManager()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -27,6 +32,40 @@ final class NearbyPhotosScreen: BaseCollectionViewController {
     }
 }
 
+extension NearbyPhotosScreen : CLLocationManagerDelegate {
+
+    func initLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        locationManager.requestWhenInUseAuthorization()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        showText(error.localizedDescription)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        model.lat = location.coordinate.latitude
+        model.lon = location.coordinate.longitude
+        locationManager.stopUpdatingLocation()
+        locationManager.delegate = nil
+        flickrApi.searchPhotos(geo: model) { [weak self] result in
+            guard let welf = self else { return }
+            switch result {
+                case .error(let text): showText(text)
+                case .success(let model): welf.setFirstModels(model)
+            }
+        }
+    }
+}
+
 extension NearbyPhotosScreen : BaseCollectionViewControllerProtocol {
 
     func configure(cell: UICollectionViewCell, withIdentifier identifier: String, and model: PhotoModel, for indexPath: IndexPath) {
@@ -34,8 +73,14 @@ extension NearbyPhotosScreen : BaseCollectionViewControllerProtocol {
         cell.model = model
     }
 
-    func loadMoreModels(_ completion: ([PhotoModel]) -> Void, in collectionView: UICollectionViewController) {
-        // TODO: load photos and send it to completion(_:)
+    func loadMoreModels(_ completion: @escaping ([PhotoModel]) -> Void, in collectionView: UICollectionViewController) {
+        model.page += 1
+        flickrApi.searchPhotos(geo: model) { result in
+            switch result {
+                case .error(let text): showText(text)
+                case .success(let model): completion(model)
+            }
+        }
     }
 
     func didSelect(model: PhotoModel, at indexPath: IndexPath, in collectionView: UICollectionViewController) {
