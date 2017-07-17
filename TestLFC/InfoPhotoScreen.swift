@@ -20,7 +20,7 @@ final class InfoPhotoScreen : UIViewController {
         initImageView()
         initScrollView()
         guard let model = model else { return }
-        imageView?.af_setImage(withURL: model.url)
+        imageView?.af_setImage(withURL: model.large)
     }
 }
 

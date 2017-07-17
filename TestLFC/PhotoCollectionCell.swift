@@ -15,7 +15,7 @@ final class PhotoCollectionCell: UICollectionViewCell {
     var model: PhotoModel? {
         didSet {
             guard let model = model else { return }
-            imageView.af_setImage(withURL: model.url)
+            imageView.af_setImage(withURL: model.small)
         }
     }
 }

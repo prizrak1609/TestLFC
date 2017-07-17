@@ -9,5 +9,6 @@
 import Foundation
 
 struct PhotoModel {
-    let url: URL
+    let small: URL
+    let large: URL
 }
