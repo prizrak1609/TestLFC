@@ -18,4 +18,22 @@ final class PhotoCollectionCell: UICollectionViewCell {
             imageView.af_setImage(withURL: model.small, placeholderImage: #imageLiteral(resourceName: "placeholder"))
         }
     }
+
+    weak var navigationController: UINavigationController?
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let _tap = UITapGestureRecognizer()
+        _tap.addTarget(self, action: #selector(tap))
+        imageView.addGestureRecognizer(_tap)
+    }
+
+    func tap() {
+        if let infoPhotoScreen = Storyboards.infoPhoto as? InfoPhotoScreen, let model = model {
+            infoPhotoScreen.model = model
+            navigationController?.pushViewController(infoPhotoScreen, animated: true)
+        } else {
+            log("can't get \(Storyboards.Name.infoPhoto) storyboard")
+        }
+    }
 }

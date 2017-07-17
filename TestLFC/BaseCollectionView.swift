@@ -30,6 +30,7 @@ class BaseCollectionViewController : UICollectionViewController, UICollectionVie
         collectionView?.register(UINib(nibName: Cell.loading, bundle: nil), forCellWithReuseIdentifier: Cell.loading)
         collectionView?.delegate = self
         collectionView?.dataSource = self
+        collectionView?.allowsSelection = true
         if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.sectionHeadersPinToVisibleBounds = true
         }
@@ -66,6 +67,7 @@ class BaseCollectionViewController : UICollectionViewController, UICollectionVie
         return false
     }
 
+    // don't work and https://stackoverflow.com/questions/20380512/uicollectionview-diddeselectitematindexpath-not-called-if-cell-is-selected not work
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item < models.count {
             delegate?.didSelect(model: models[indexPath.item], at: indexPath, in: self)

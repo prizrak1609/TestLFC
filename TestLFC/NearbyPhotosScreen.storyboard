@@ -34,7 +34,7 @@
         <scene sceneID="jRy-S4-BBI">
             <objects>
                 <collectionViewController automaticallyAdjustsScrollViewInsets="NO" id="fpK-9F-U3I" customClass="NearbyPhotosScreen" customModule="TestLFC" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" id="FVr-Af-b5X">
+                    <collectionView key="view" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" dataMode="prototypes" prefetchingEnabled="NO" id="FVr-Af-b5X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

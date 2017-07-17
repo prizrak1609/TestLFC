@@ -21,6 +21,11 @@ final class NearbyPhotosScreen: BaseCollectionViewController {
         initLocationManager()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
     override func initialiseBaseCollectionView() {
         super.initialiseBaseCollectionView()
         delegate = self
@@ -72,6 +77,7 @@ extension NearbyPhotosScreen : BaseCollectionViewControllerProtocol {
     func configure(cell: UICollectionViewCell, withIdentifier identifier: String, and model: PhotoModel, for indexPath: IndexPath) {
         guard identifier == Cell.photo, let cell = cell as? PhotoCollectionCell else { return }
         cell.model = model
+        cell.navigationController = navigationController
     }
 
     func loadMoreModels(_ completion: @escaping ([PhotoModel]) -> Void, in collectionView: UICollectionViewController) {
@@ -88,11 +94,11 @@ extension NearbyPhotosScreen : BaseCollectionViewControllerProtocol {
     }
 
     func didSelect(model: PhotoModel, at indexPath: IndexPath, in collectionView: UICollectionViewController) {
-        if let infoPhotoScreen = Storyboards.infoPhoto as? InfoPhotoScreen {
-            infoPhotoScreen.model = model
-            navigationController?.pushViewController(infoPhotoScreen, animated: true)
-        } else {
-            log("can't get \(Storyboards.Name.infoPhoto) storyboard")
-        }
+//        if let infoPhotoScreen = Storyboards.infoPhoto as? InfoPhotoScreen {
+//            infoPhotoScreen.model = model
+//            navigationController?.pushViewController(infoPhotoScreen, animated: true)
+//        } else {
+//            log("can't get \(Storyboards.Name.infoPhoto) storyboard")
+//        }
     }
 }

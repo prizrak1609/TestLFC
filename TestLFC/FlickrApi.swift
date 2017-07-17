@@ -44,7 +44,7 @@ final class FlickrApi {
 
                 let result = photosArray.map { photo -> PhotoModel in
                     let smallPhotoURL = FlickrKit.shared().photoURL(for: .small240, fromPhotoDictionary: photo)
-                    let largePhotoURL = FlickrKit.shared().photoURL(for: .large2048, fromPhotoDictionary: photo)
+                    let largePhotoURL = FlickrKit.shared().photoURL(for: .large1024, fromPhotoDictionary: photo)
                     let model = PhotoModel(small: smallPhotoURL, large: largePhotoURL)
                     return model
                 }

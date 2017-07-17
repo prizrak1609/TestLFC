@@ -20,14 +20,16 @@ final class InfoPhotoScreen : UIViewController {
         initImageView()
         initScrollView()
         guard let model = model else { return }
-        imageView?.af_setImage(withURL: model.large)
+        imageView?.af_setImage(withURL: model.large, placeholderImage: #imageLiteral(resourceName: "placeholder"))
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
 
 extension InfoPhotoScreen {
 
     func initImageView() {
-        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height))
+        let screen = UIScreen.main.bounds
+        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
         imageView?.contentMode = .scaleAspectFit
     }
 }
@@ -38,6 +40,9 @@ extension InfoPhotoScreen : UIScrollViewDelegate {
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 5
+        if let imageView = imageView {
+            scrollView.addSubview(imageView)
+        }
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
